@@ -40,3 +40,4 @@ gem 'spring',        group: :development
 
 gem 'slim-rails'
 gem 'ruby-trello'
+gem 'omniauth-trello'
