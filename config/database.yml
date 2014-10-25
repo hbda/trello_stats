@@ -8,10 +8,13 @@ default: &default
   adapter: postgresql
   pool: 5
   timeout: 5000
+  host: localhost
 
 development:
   <<: *default
   database: trello_stats_development
+  username: developer
+  password: develop123
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -19,6 +22,8 @@ development:
 test:
   <<: *default
   database: trello_stats_test
+  username: tester
+  password: test123
 
 production:
   <<: *default
