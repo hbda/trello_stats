@@ -41,3 +41,11 @@ gem 'spring',        group: :development
 gem 'slim-rails'
 gem 'ruby-trello'
 gem 'omniauth-trello'
+gem 'rails_12factor'
+
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'pry-rails'
+  gem 'pry-stack_explorer'
+end
