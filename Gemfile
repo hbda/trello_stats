@@ -3,8 +3,7 @@ source 'https://rubygems.org'
 ruby '2.1.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
-# Use sqlite3 as the database for Active Record
-#gem 'sqlite3'
+gem 'pg'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -41,7 +40,10 @@ gem 'spring',        group: :development
 gem 'slim-rails'
 gem 'ruby-trello'
 gem 'omniauth-trello'
-gem 'rails_12factor'
+
+group :production do
+  gem 'rails_12factor'
+end
 
 group :development do
   gem 'better_errors'
