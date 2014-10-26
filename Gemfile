@@ -38,8 +38,10 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 gem 'slim-rails'
+gem 'devise'
 gem 'ruby-trello'
 gem 'omniauth-trello'
+gem "figaro"
 
 group :production do
   gem 'rails_12factor'

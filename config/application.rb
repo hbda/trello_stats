@@ -19,5 +19,11 @@ module TrelloStats
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    config.generators do |g|
+      g.hidden_namespaces << :test_unit << :erb
+      #g.test_framework :mini_test
+      g.template_engine :slim
+    end
   end
 end
