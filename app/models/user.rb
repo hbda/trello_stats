@@ -6,7 +6,9 @@ class User < ActiveRecord::Base
   def self.from_omniauth(auth)
     where(trello_uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
-      user.name = auth.info.name   # assuming the user model has a name
+      user.name = auth.info.name
+      user.trello_token = auth.credentials.token
+      user.trello_secret = auth.credentials.secret
     end
   end
 end
