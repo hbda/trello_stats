@@ -1,2 +1,10 @@
-h1 Boards#index
-p Find me in app/views/boards/index.html.slim
+h1 Boards
+table
+  - @boards.each do |board|
+    tr
+      td #{board[:name]}
+      td
+        - if board[:active]
+          = link_to 'Deactivate', deactivate_board_url(board[:id])
+        - else
+          = link_to 'Activate', activate_board_url(board[:id])
