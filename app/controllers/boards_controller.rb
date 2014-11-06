@@ -1,22 +1,21 @@
 class BoardsController < ApplicationController
-  before_action :fetch_board, only: [:activate, :deactivate]
+  before_action :fetch_board, only: [:update]
+
   def index
     @boards = get_boards
   end
 
-  def activate
-    @board.active = true
-    @board.save!
-    redirect_to boards_url
-  end
-
-  def deactivate
-    @board.active = false
-    @board.save!
+  def update
+    current_user.add_board @board
+    @board.update! board_params
     redirect_to boards_url
   end
 
   private
+
+  def board_params
+    params.require(:board).permit(:active)
+  end
 
   def client
     @client ||= TrelloClient.new current_user.trello_token, current_user.trello_secret
@@ -34,8 +33,6 @@ class BoardsController < ApplicationController
   end
 
   def fetch_board
-    @board = Board.find_or_create_by trello_id: params[:id] do |board|
-      board.users << current_user
-    end
+    @board = Board.find_or_create_by trello_id: params[:id]
   end
 end

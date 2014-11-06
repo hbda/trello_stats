@@ -12,12 +12,7 @@ Rails.application.routes.draw do
   end
 
   get 'landing/index'
-  resources :boards, only: [:index] do
-    member do
-      get 'activate'
-      get 'deactivate'
-    end
-  end
+  resources :boards, only: [:index, :update]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

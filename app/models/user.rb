@@ -13,4 +13,8 @@ class User < ActiveRecord::Base
       user.trello_secret = auth.credentials.secret
     end
   end
+
+  def add_board board
+    boards << board unless boards.include?(board)
+  end
 end
