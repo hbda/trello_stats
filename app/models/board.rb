@@ -3,4 +3,6 @@ class Board < ActiveRecord::Base
   has_many :statistics
 
   validate :trello_id, presence: true, uniqueness: true
+
+  scope :active, -> { where(is_active: true) }
 end

@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-ruby '2.1.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
 gem 'pg'
@@ -41,7 +40,11 @@ gem 'slim-rails'
 gem 'devise'
 gem 'ruby-trello'
 gem 'omniauth-trello'
-gem "figaro"
+gem 'figaro'
+
+gem 'pry'
+gem 'pry-byebug'
+gem 'awesome_print'
 
 group :production do
   gem 'rails_12factor'

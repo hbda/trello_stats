@@ -3,6 +3,5 @@ class Statistic < ActiveRecord::Base
 
   serialize :data
 
-
   validate :board_id, :data, presence: true
 end

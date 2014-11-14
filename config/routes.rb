@@ -12,7 +12,15 @@ Rails.application.routes.draw do
   end
 
   get 'landing/index'
-  resources :boards, only: [:index, :update]
+  resources :boards, only: [:index, :update] do
+    resources :statistics, only: [:index]
+  end
+
+  resources :statistics, only: [] do
+    collection do
+      get 'collect'
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,13 +1,16 @@
 require 'trello'
 
 class TrelloClient
-  def initialize token, secret
-    @token = token
-    @secret = secret
+  def initialize user
+    @user = user
   end
 
-  def get_member uid
-    client.find :member, uid
+  def member
+    client.find :member, @user.trello_uid
+  end
+
+  def get_board id
+    client.find :board, id
   end
 
   private
@@ -16,8 +19,8 @@ class TrelloClient
     @client ||= Trello::Client.new(
       :consumer_key => ENV['TRELLO_KEY'],
       :consumer_secret => ENV['TRELLO_SECRET'],
-      :oauth_token => @token,
-      :oauth_token_secret => @secret
+      :oauth_token => @user.trello_token,
+      :oauth_token_secret => @user.trello_secret
     )
   end
 end

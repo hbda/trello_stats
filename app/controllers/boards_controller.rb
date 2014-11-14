@@ -18,16 +18,16 @@ class BoardsController < ApplicationController
   end
 
   def client
-    @client ||= TrelloClient.new current_user.trello_token, current_user.trello_secret
+    @client ||= TrelloClient.new current_user
   end
 
   def get_boards
     saved_boards = current_user.boards.each_with_object({}) { |b, m| m[b.trello_id] = b }
-    client.get_member(current_user.trello_uid).boards.map do |b|
+    client.member.boards.map do |b|
       {
         name: b.name,
         id: b.id,
-        active: saved_boards.has_key?(b.id) ? saved_boards[b.id].active? : false
+        active: saved_boards.has_key?(b.id) ? saved_boards[b.id].is_active? : false
       }
     end
   end
