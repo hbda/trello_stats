@@ -14,7 +14,7 @@ class BoardsController < ApplicationController
   private
 
   def board_params
-    params.require(:board).permit(:active)
+    params.require(:board).permit(:is_active)
   end
 
   def client

@@ -4,4 +4,4 @@ table
     tr
       td #{board[:name]}
       td
-        = link_to board[:active] ? 'Deactivate' : 'Activate', board_path(board[:id], 'board[active]' => !board[:active]), method: :put
+        = link_to board[:active] ? 'Deactivate' : 'Activate', board_path(board[:id], 'board[is_active]' => !board[:active]), method: :put
