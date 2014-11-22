@@ -27,7 +27,8 @@ class BoardsController < ApplicationController
       {
         name: b.name,
         id: b.id,
-        active: saved_boards.has_key?(b.id) ? saved_boards[b.id].is_active? : false
+        active: saved_boards.has_key?(b.id) ? saved_boards[b.id].is_active? : false,
+        has_statistics: saved_boards.has_key?(b.id) ? saved_boards[b.id].statistics.any? : false
       }
     end
   end
