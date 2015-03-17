@@ -18,6 +18,13 @@ $(document).on 'page:change', ->
     .attr('height', height)
     .text('Board Graph')
 
+  max_value = (d) ->
+    max = 0
+    for key, value of d
+      if key != 'Archive' && max < value
+        max = value
+    max + d.Archive
+
   x_range = d3
     .time
     .scale()
@@ -28,7 +35,7 @@ $(document).on 'page:change', ->
     .linear()
     .range([height - margins.bottom, margins.top])
     .domain([0, d3.max(data, (d) ->
-      d.stat.Backlog
+      max_value(d.stat)
     )])
   x_axis = d3.svg.axis()
     .scale(x_range)
@@ -62,18 +69,22 @@ $(document).on 'page:change', ->
     .attr('transform', 'translate(' + (margins.left) + ',0)')
     .call(y_axis)
 
-  line_func = d3.svg.line()
-    .x((d) ->
-      x_range(new Date(d.date))
-    )
-    .y((d) ->
-      y_range(d.stat.Backlog)
-    )
-    .interpolate('linear')
+  line_func = (key) ->
+    d3.svg.line()
+      .x((d) ->
+        x_range(new Date(d.date))
+      )
+      .y((d) ->
+        y_range((d.stat[key] || 0) + d.stat.Archive)
+      )
+      .interpolate('linear')
 
-  graph
-    .append('svg:path')
-    .attr('d', line_func(data))
-    .attr('stroke', 'blue')
-    .attr('stroke-width', 2)
-    .attr('fill', 'none');
+  for key, _ of data[data.length - 1].stat
+    return if key == 'Archive'
+    console.log key
+    graph
+      .append('svg:path')
+      .attr('d', line_func(key)(data))
+      .attr('stroke', "hsl(" + Math.random() * 360 + ",100%,50%)")
+      .attr('stroke-width', 2)
+      .attr('fill', 'none')
