@@ -34,7 +34,7 @@ $(document).on 'page:change', ->
     .scale
     .linear()
     .range([height - margins.bottom, margins.top])
-    .domain([0, d3.max(data, (d) ->
+    .domain([data[0].stat.Archive, d3.max(data, (d) ->
       max_value(d.stat)
     )])
   x_axis = d3.svg.axis()
