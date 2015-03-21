@@ -21,22 +21,31 @@ $(document).on 'page:change', ->
   max_value = (d) ->
     max = 0
     for key, value of d
-      if key != 'Archive' && max < value
+      if max < value
         max = value
-    max + d.Archive
+    max
+
+  min_value = (d) ->
+    min = 1000000000
+    for key, value of d
+      if min > value
+        min = value
+    min
 
   x_range = d3
     .time
     .scale()
-    .domain([+new Date(data[0].date), +d3.time.day.offset(new Date(data[data.length - 1].date), 1)])
+    .domain([new Date(data[0].date), d3.time.day.offset(new Date(data[data.length - 1].date), 1)])
     .range([margins.left, width - margins.right])
   y_range = d3
     .scale
     .linear()
     .range([height - margins.bottom, margins.top])
-    .domain([data[0].stat.Archive, d3.max(data, (d) ->
-      max_value(d.stat)
-    )])
+    .domain([d3.min(data, (d) ->
+        min_value(d.stat)
+      ), d3.max(data, (d) ->
+        max_value(d.stat)
+      )])
   x_axis = d3.svg.axis()
     .scale(x_range)
     .orient('bottom')
@@ -75,12 +84,11 @@ $(document).on 'page:change', ->
         x_range(new Date(d.date))
       )
       .y((d) ->
-        y_range((d.stat[key] || 0) + d.stat.Archive)
+        y_range((d.stat[key] || 0))
       )
       .interpolate('linear')
 
   for key, _ of data[data.length - 1].stat
-    return if key == 'Archive'
     console.log key
     graph
       .append('svg:path')

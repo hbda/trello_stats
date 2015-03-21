@@ -17,6 +17,14 @@ class StatisticsController < ApplicationController
   end
 
   def get_graph_data
-    @board.statistics.order(:created_at).map { |s| { date: s.created_at.to_date, stat: s.data} }
+    @board.statistics.order(:created_at).map do |s|
+      { date: s.created_at.to_date, stat: prepared_data(@board.statistics.last.data.keys, s.data) }
+    end
+  end
+
+  def prepared_data keys, data
+    keys.each_with_object({}) do |k, obj|
+      obj[k] = (data[k] || 0) + data['Archive'] if k != 'Archive'
+    end
   end
 end
