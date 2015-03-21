@@ -84,7 +84,7 @@ $(document).on 'page:change', ->
         x_range(new Date(d.date))
       )
       .y((d) ->
-        y_range((d.stat[key] || 0))
+        y_range(d.stat[key])
       )
       .interpolate('linear')
 
