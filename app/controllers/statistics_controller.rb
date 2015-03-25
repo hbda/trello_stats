@@ -17,8 +17,8 @@ class StatisticsController < ApplicationController
   end
 
   def get_graph_data
-    @board.statistics.order(:created_at).map do |s|
-      { date: s.created_at.to_date, stat: prepared_data(@board.statistics.last.data.keys, s.data) }
+    @board.last_statistics.map do |s|
+      { date: s.created_at.to_date, stat: prepared_data(@board.last_statistics.last.data.keys, s.data) }
     end
   end
 
