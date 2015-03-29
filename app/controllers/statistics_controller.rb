@@ -27,7 +27,7 @@ class StatisticsController < ApplicationController
     keys.reverse.each_with_object({}) do |k, obj|
       if k != 'Archive'
         count = (data[k] || 0)
-        obj[k] = count + ac
+        obj[k] = count + ac if k != 'Wont fix'
         ac += count
       end
     end
