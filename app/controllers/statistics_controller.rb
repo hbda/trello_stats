@@ -23,8 +23,13 @@ class StatisticsController < ApplicationController
   end
 
   def prepared_data keys, data
-    keys.each_with_object({}) do |k, obj|
-      obj[k] = (data[k] || 0) + data['Archive'] if k != 'Archive'
+    ac = data['Archive']
+    keys.reverse.each_with_object({}) do |k, obj|
+      if k != 'Archive'
+        count = (data[k] || 0)
+        obj[k] = count + ac
+        ac += count
+      end
     end
   end
 end
