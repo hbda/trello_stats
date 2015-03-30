@@ -66,7 +66,7 @@ $(document).on 'page:change', ->
     .attr('width', width)
     .attr('height', height)
     .text('Board Graph')
-    .append("g")
+    .append("svg:g")
     .attr("transform", "translate(" + margins.left + "," + margins.top + ")")
     .call(zoom)
 
@@ -99,7 +99,7 @@ $(document).on 'page:change', ->
       .interpolate('linear')
 
   for key, _ of data[data.length - 1].stat
-    console.log key
+    # console.log key
     graph
       .append('svg:path')
       .attr('d', line_func(key)(data))
@@ -108,6 +108,6 @@ $(document).on 'page:change', ->
       .attr('fill', 'none')
 
 
-  zoomed = () ->
-    svg.select(".x.axis").call(x_axis)
-    svg.select(".y.axis").call(y_axis)
+zoomed = () ->
+  svg.select(".x.axis").call(x_axis)
+  svg.select(".y.axis").call(y_axis)
