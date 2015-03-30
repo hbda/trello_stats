@@ -12,12 +12,6 @@ $(document).on 'page:change', ->
     left: 50
   }
 
-  graph = d3.select('#graph').append('svg')
-  graph
-    .attr('width', width)
-    .attr('height', height)
-    .text('Board Graph')
-
   max_value = (d) ->
     max = 0
     for key, value of d
@@ -49,16 +43,32 @@ $(document).on 'page:change', ->
   x_axis = d3.svg.axis()
     .scale(x_range)
     .orient('bottom')
-    .tickSize(5, 0)
+    .tickSize(-height + margins.top + margins.bottom, 0)
     .tickSubdivide(true)
     # .ticks(d3.time.days, 1)
     .tickFormat(d3.time.format('%d.%m'))
-    # .tickPadding(8)
+    .tickPadding(8)
   y_axis = d3.svg.axis()
     .scale(y_range)
     .tickSize(1)
     .orient('left')
+    .tickSize(-width + margins.left + margins.right, 0)
     # .tickSubdivide(true)
+
+  zoom = d3.behavior.zoom()
+    .x(x_range)
+    .y(y_range)
+    .scaleExtent([1, 32])
+    .on("zoom", zoomed)
+
+  graph = d3.select('#graph').append('svg')
+  graph
+    .attr('width', width)
+    .attr('height', height)
+    .text('Board Graph')
+    .append("g")
+    .attr("transform", "translate(" + margins.left + "," + margins.top + ")")
+    .call(zoom)
 
   graph
     .append('svg:g')
@@ -96,3 +106,8 @@ $(document).on 'page:change', ->
       .attr('stroke', "hsl(" + Math.random() * 360 + ",100%,50%)")
       .attr('stroke-width', 2)
       .attr('fill', 'none')
+
+
+  zoomed = () ->
+    svg.select(".x.axis").call(x_axis)
+    svg.select(".y.axis").call(y_axis)
