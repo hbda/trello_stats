@@ -26,6 +26,14 @@ $(document).on 'page:change', ->
         min = value
     min
 
+  zoomed = () ->
+    graph.select(".x.axis").call(x_axis)
+    graph.select(".y.axis").call(y_axis)
+    Object.keys(data[data.length - 1].stat).forEach (key, i) ->
+      graph
+        .select("path#line_" + i)
+        .attr("d", line_func(key)(data))
+
   x_range = d3
     .time
     .scale()
@@ -53,6 +61,7 @@ $(document).on 'page:change', ->
     .tickSize(1)
     .orient('left')
     .tickSize(-width + margins.left + margins.right, 0)
+    .tickFormat(d3.format('d'))
     # .tickSubdivide(true)
 
   zoom = d3.behavior.zoom()
@@ -88,6 +97,22 @@ $(document).on 'page:change', ->
     .attr('transform', 'translate(' + (margins.left) + ',0)')
     .call(y_axis)
 
+  graph.append("rect")
+    .attr("class", "pane")
+    .attr("width", width - margins.left - margins.right)
+    .attr("height", height - margins.top - margins.bottom)
+    .attr("x", margins.left)
+    .attr("y", margins.top)
+    .call(zoom)
+
+  graph.append("clipPath")
+    .attr("id", "clip")
+    .append("rect")
+    .attr("width", width - margins.left - margins.right)
+    .attr("height", height - margins.top - margins.bottom)
+    .attr("x", margins.left)
+    .attr("y", margins.top)
+
   line_func = (key) ->
     d3.svg.line()
       .x((d) ->
@@ -98,16 +123,16 @@ $(document).on 'page:change', ->
       )
       .interpolate('linear')
 
-  for key, _ of data[data.length - 1].stat
-    # console.log key
+  Object.keys(data[data.length - 1].stat).forEach (key, i) ->
     graph
-      .append('svg:path')
-      .attr('d', line_func(key)(data))
+      .append('path')
+      .attr('id', "line_" + i)
+      .attr('d',line_func(key)(data))
       .attr('stroke', "hsl(" + Math.random() * 360 + ",100%,50%)")
       .attr('stroke-width', 2)
       .attr('fill', 'none')
+      .attr("clip-path", "url(#clip)")
 
+  # zoom.x(x_range)
+  # zoom.y(y_range)
 
-zoomed = () ->
-  svg.select(".x.axis").call(x_axis)
-  svg.select(".y.axis").call(y_axis)
