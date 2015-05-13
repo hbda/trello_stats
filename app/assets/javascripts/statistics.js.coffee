@@ -53,7 +53,6 @@ $(document).on 'page:change', ->
     .orient('bottom')
     .tickSize(-height + margins.top + margins.bottom, 0)
     .tickSubdivide(true)
-    # .ticks(d3.time.days, 1)
     .tickFormat(d3.time.format('%d.%m'))
     .tickPadding(8)
   y_axis = d3.svg.axis()
@@ -123,16 +122,14 @@ $(document).on 'page:change', ->
       )
       .interpolate('linear')
 
+  palette = d3.scale.category20()
   Object.keys(data[data.length - 1].stat).forEach (key, i) ->
     graph
       .append('path')
       .attr('id', "line_" + i)
       .attr('d',line_func(key)(data))
-      .attr('stroke', "hsl(" + Math.random() * 360 + ",100%,50%)")
+      .attr('stroke', palette(i))
       .attr('stroke-width', 2)
       .attr('fill', 'none')
       .attr("clip-path", "url(#clip)")
-
-  # zoom.x(x_range)
-  # zoom.y(y_range)
 
