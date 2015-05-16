@@ -44,7 +44,9 @@ gem 'omniauth-trello'
 gem 'figaro'
 
 gem 'pry'
+gem 'pry-rails'
 gem 'pry-byebug'
+gem 'pry-stack_explorer'
 gem 'awesome_print'
 
 gem 'd3-rails'
@@ -56,6 +58,4 @@ end
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'pry-rails'
-  gem 'pry-stack_explorer'
 end
