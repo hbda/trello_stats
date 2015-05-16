@@ -9,6 +9,8 @@ class StatisticsCollector
 
   def collect
     Statistic.create! board: @board, data: board_stat
+  rescue StandardError => ex
+    puts ex
   end
 
   private
