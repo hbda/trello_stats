@@ -66,7 +66,11 @@ $(document).on 'page:change', ->
   zoom = d3.behavior.zoom()
     .x(x_range)
     .y(y_range)
-    .scaleExtent([1, 32])
+    .scaleExtent([1, 10])
+    .size([
+      width - margins.left - margins.right,
+      height - margins.top - margins.bottom
+    ])
     .on("zoom", zoomed)
 
   graph = d3.select('#graph').append('svg')
