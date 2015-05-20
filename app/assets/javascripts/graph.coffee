@@ -15,7 +15,7 @@ class Graph
       bottom: 30,
       left: 50
     }
-  palette: d3.scale.category20()
+  palette: d3.scale.category10()
 
   constructor: (@container) ->
     @data = $(@container).data('graph-data')
@@ -150,7 +150,7 @@ class Graph
       .interpolate('linear')
 
   __draw_legend: (graph, keys) ->
-    d3.select('#legend')
+    d3.select('.legend')
       .selectAll('.legend_item')
       .data(keys)
       .enter()
@@ -165,5 +165,8 @@ class Graph
           .select("path#line_" + i)
           .transition()
           .style('opacity', if displayed then 0 else 1)
-        item.classed('disabled', if displayed then true else false)
+        item
+          .classed('disabled', if displayed then true else false)
+          .transition()
+          .style('opacity', if displayed then 0.3 else 1)
       )

@@ -1,21 +1,33 @@
-.axis
-  path
-    fill: none
-    shape-rendering: crispEdges
-    stroke: #000
+#statistics_index
+  .axis
+    path
+      fill: none
+      shape-rendering: crispEdges
+      stroke: #000
 
-  line
-    stroke: rgba(0, 0, 0, .5)
-    stroke-width: 1
-    stroke-dasharray: 1 5
-    fill: rgba(0, 0, 0, .1)
-
-  .minor
     line
-      stroke: #777
-      stroke-dasharray: 2,2
+      stroke: rgba(0, 0, 0, .5)
+      stroke-width: 1
+      stroke-dasharray: 1 5
+      fill: rgba(0, 0, 0, .1)
 
-rect.pane
-  cursor: move
-  fill: none
-  pointer-events: all
+    .minor
+      line
+        stroke: #777
+        stroke-dasharray: 2,2
+
+  rect.pane
+    cursor: move
+    fill: none
+    pointer-events: all
+
+  .legend
+    margin: 0 30px 0 30px
+
+    .legend_item
+      cursor: pointer
+      display: inline-block
+      padding: 0 7px 0 7px
+      border-right: 1px solid #000
+      &:last-child
+        border-right: 0px none
