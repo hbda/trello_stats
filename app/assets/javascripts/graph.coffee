@@ -24,10 +24,10 @@ class Graph
     @__x_range_init()
     @__y_range_init()
 
-    zoomed = () ->
+    zoomed = () =>
       graph.select(".x.axis").call(x_axis)
       graph.select(".y.axis").call(y_axis)
-      @keys.forEach (key, i) ->
+      @keys.forEach (key, i) =>
         graph
           .select("path#line_" + i)
           .attr("d", @__line_func(key)(@data))
@@ -105,6 +105,8 @@ class Graph
         .attr('fill', 'none')
         .attr("clip-path", "url(#clip)")
 
+    @__draw_legend(graph, @keys)
+
   __max_value: (d) ->
     max = 0
     for key, value of d
@@ -147,12 +149,21 @@ class Graph
       )
       .interpolate('linear')
 
-  __draw_legend: (keys) ->
+  __draw_legend: (graph, keys) ->
     d3.select('#legend')
       .selectAll('.legend_item')
       .data(keys)
       .enter()
       .append('div')
-      .classed('legend_item')
+      .classed('legend_item', true)
       .text((d) -> d)
-      .exit().remove()
+      .style('color', (d, i) => @palette(i))
+      .on('click', (d, i) ->
+        item = d3.select(@)
+        displayed = !item.classed('disabled')
+        graph
+          .select("path#line_" + i)
+          .transition()
+          .style('opacity', if displayed then 0 else 1)
+        item.classed('disabled', if displayed then true else false)
+      )
