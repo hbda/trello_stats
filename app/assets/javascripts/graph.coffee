@@ -19,7 +19,7 @@ class Graph
 
   constructor: (@container) ->
     @data = $(@container).data('graph-data')
-    @keys = Object.keys(@data[@data.length - 1].stat)
+    @keys = Object.keys(@data[@data.length - 1].stat).reverse()
 
     @__x_range_init()
     @__y_range_init()
