@@ -94,16 +94,27 @@ class Graph
       .attr("x", @margins.left)
       .attr("y", @margins.top)
 
+    line_select = (line, selected) ->
+      item = d3.select(line)
+      d3.select('.legend')
+        .select('#legend_item_' + item.attr('data-index'))
+        .classed('selected', selected)
+      item
+        .transition()
+        .style('stroke-width', if selected then 4 else 2)
 
     @keys.forEach (key, i) =>
       graph
         .append('path')
         .attr('id', "line_" + i)
+        .attr('data-index', i)
         .attr('d',@__line_func(key)(@data))
         .attr('stroke', @palette(i))
         .attr('stroke-width', 2)
         .attr('fill', 'none')
         .attr("clip-path", "url(#clip)")
+        .on('mouseover', () -> line_select(@, true))
+        .on('mouseout', () -> line_select(@, false))
 
     @__draw_legend(graph, @keys)
 
@@ -150,12 +161,22 @@ class Graph
       .interpolate('linear')
 
   __draw_legend: (graph, keys) ->
+    legend_item_select = (i, selected) =>
+      d3.select('.legend')
+        .select('#legend_item_' + i)
+        .classed('selected', selected)
+      graph
+        .select("path#line_" + i)
+        .transition()
+        .style('stroke-width', if selected then 4 else 2)
+
     d3.select('.legend')
       .selectAll('.legend_item')
       .data(keys)
       .enter()
       .append('div')
       .classed('legend_item', true)
+      .attr('id', (d, i) -> 'legend_item_' + i)
       .text((d) -> d)
       .style('color', (d, i) => @palette(i))
       .on('click', (d, i) ->
@@ -170,3 +191,5 @@ class Graph
           .transition()
           .style('opacity', if displayed then 0.3 else 1)
       )
+      .on('mouseover', (d, i) -> legend_item_select(i, true))
+      .on('mouseout', (d, i) -> legend_item_select(i, false))
