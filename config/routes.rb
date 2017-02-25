@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   resources :statistics, only: [] do
     collection do
       get 'collect'
+      get 'example'
     end
   end
 

@@ -10,6 +10,14 @@ class StatisticsController < ApplicationController
     @graph_data = get_graph_data
   end
 
+  def example
+    @board = Board.first
+    stats = @board.statistics.order(:created_at).take(90)
+    @graph_data = stats.map do |s|
+      { date: s.created_at.to_date, stat: prepared_data(stats.last.data.keys, s.data) }
+    end
+  end
+
   private
 
   def fetch_board
