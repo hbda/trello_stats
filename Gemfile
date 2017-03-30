@@ -51,6 +51,8 @@ gem 'awesome_print'
 
 gem 'd3-rails'
 
+gem 'faraday'
+
 group :production do
   gem 'rails_12factor'
 end
